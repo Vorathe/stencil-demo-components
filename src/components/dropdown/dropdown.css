@@ -31,6 +31,8 @@
   box-shadow: var(--ui-dropdown-box-shadow, 0 0 .188rem rgba(.32, .32, .32, .16));
   color: var(--ui-dropdown-header-color, #4a4a4a);
   font-size: var(--ui-dropdown-header-font-size, 1rem);
+  position: relative;
+  z-index: 1;
 }
 .dropdown-header span {
   flex: 1 0 auto;

@@ -57,7 +57,7 @@ declare global {
     export interface UiDropdownAttributes extends HTMLAttributes {
       'icon'?: 'caret' | 'angle';
       'label'?: string;
-      'onOnClick'?: (event: CustomEvent) => void;
+      'onOnClickCallback'?: (event: CustomEvent) => void;
     }
   }
 }

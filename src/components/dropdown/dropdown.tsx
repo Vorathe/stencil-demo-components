@@ -10,11 +10,11 @@ export class Dropdown {
   @Prop() icon: 'caret' | 'angle' = 'caret';
   @State() isOpen = false;
   @State() isAnimating = false;
-  @Event() onClick: EventEmitter;
+  @Event() onClickCallback: EventEmitter;
   @Method()
   toggleDropdown(): void {
     this.isOpen = !this.isOpen;
-    this.onClick.emit(this.isOpen);
+    this.onClickCallback.emit(this.isOpen);
     this.animateList(this.isOpen);
   }
   @Listen('document:click')
@@ -46,7 +46,6 @@ export class Dropdown {
       duration: 160,
       iterations: 1,
     };
-    this.isAnimating = true;
     isOpen ?
       this.playAnimation(slideAnimation, animationOptions) :
       this.playAnimation(slideAnimation, {...animationOptions, direction: 'reverse'});
@@ -54,6 +53,7 @@ export class Dropdown {
   playAnimation(animation, options): void {
     const list = this.host.shadowRoot.querySelector('div.dropdown-list');
     const listAnimation = (options: {}) => list.animate(animation, options);
+    this.isAnimating = true;
     listAnimation(options).play();
     listAnimation(options).onfinish = () => { this.isAnimating = false; };
   }
