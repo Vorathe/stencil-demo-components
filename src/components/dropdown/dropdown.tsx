@@ -18,7 +18,7 @@ export class Dropdown {
     this.animateList(this.isOpen);
   }
   @Listen('document:click')
-  handleClick(event: Event): void {
+  handleOffClick(event: Event): void {
     if (!this.host.contains(event.target as Node) && this.isOpen) {
       this.isOpen = false;
       this.animateList(this.isOpen);
@@ -27,12 +27,16 @@ export class Dropdown {
   animateList(isOpen: boolean): void {
     const slideAnimation = [
       {
-        transform: 'translate3d(0, -100%, 0)',
+        transform: 'translate3d(0, -20%, 0)',
         opacity: '0',
         offset: 0
       },
       {
-        opacity: '0.15',
+        transform: 'scale(0.98)',
+      },
+      {
+        opacity: '0.6',
+        transform: 'scale(1)',
         offset: .88
       },
       {
@@ -57,7 +61,7 @@ export class Dropdown {
     listAnimation(options).play();
     listAnimation(options).onfinish = () => { this.isAnimating = false; };
   }
-  getIconClasses(type: 'caret' | 'angle'): { [key: string]: boolean } {
+  getIconClasses(type: 'caret' | 'angle') {
     return {
       [this.getIconType(type, this.isOpen)]: true
     }

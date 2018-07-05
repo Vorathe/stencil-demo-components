@@ -43,6 +43,6 @@
   border-top: 0;
   margin: var(--ui-dropdown-list-margin, -2px 0 0 0);
   box-shadow: var(--ui-dropdown-box-shadow, 0 0 0.188rem rgba(.32, .32, .32, .16));
-  border-radius: var(--ui-dropdown-border-radius, 3px) 0;
+  border-radius: var(--ui-dropdown-border-radius, 3px);
 }
 
