@@ -32,7 +32,6 @@ declare global {
     interface UiDropdown {
       'icon': 'caret' | 'angle';
       'label': string;
-      'theme': 'light' | 'dark';
       'toggleDropdown': () => void;
     }
   }
@@ -59,7 +58,6 @@ declare global {
       'icon'?: 'caret' | 'angle';
       'label'?: string;
       'onOnClick'?: (event: CustomEvent) => void;
-      'theme'?: 'light' | 'dark';
     }
   }
 }

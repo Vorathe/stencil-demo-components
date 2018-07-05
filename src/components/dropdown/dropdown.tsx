@@ -8,9 +8,8 @@ export class Dropdown {
   @Element() host;
   @Prop() label: string;
   @Prop() icon: 'caret' | 'angle' = 'caret';
-  @Prop() theme: 'light' | 'dark' = 'light';
   @State() isOpen = false;
-  @State() transitioning = false;
+  @State() isAnimating = false;
   @Event() onClick: EventEmitter;
   @Method()
   toggleDropdown(): void {
@@ -18,39 +17,47 @@ export class Dropdown {
     this.onClick.emit(this.isOpen);
     this.animateList(this.isOpen);
   }
-  animateList(isOpen: boolean) {
-    const list = this.host.shadowRoot.querySelector('div.dropdown-list');
-    const animationOptions = {
-      direction: 'normal',
-      duration: 200,
-      iterations: 1,
-    };
-    const animationOptionsReversed = {...animationOptions, direction: 'reverse'};
-    if (isOpen) {
-      this.transitioning = true;
-      const open = list.animate({
-        opacity: [0.5, 1],
-        transform: ['scale(0.5)', 'scale(1)'],
-      }, animationOptions);
-      open.play();
-      open.onfinish = () => { this.transitioning = false; };
-    } else {
-      this.transitioning = true;
-      const closed = list.animate({
-        opacity: [0.5, 1],
-        transform: ['scale(0.5)', 'scale(1)'],
-      }, animationOptionsReversed);
-      closed.play();
-      closed.onfinish = () => { this.transitioning = false; };
-    }
-  }
   @Listen('document:click')
   handleClick(event: Event): void {
-    if (!this.host.contains(event.target as Node)) {
+    if (!this.host.contains(event.target as Node) && this.isOpen) {
       this.isOpen = false;
+      this.animateList(this.isOpen);
     }
   }
-  getIconClasses(type: 'caret' | 'angle') {
+  animateList(isOpen: boolean): void {
+    const slideAnimation = [
+      {
+        transform: 'translate3d(0, -100%, 0)',
+        opacity: '0',
+        offset: 0
+      },
+      {
+        opacity: '0.15',
+        offset: .88
+      },
+      {
+        transform: 'translate3d(0, 0, 0)',
+        opacity: '1',
+        offset: 1
+      }
+    ];
+    const animationOptions = {
+      direction: 'normal',
+      duration: 160,
+      iterations: 1,
+    };
+    this.isAnimating = true;
+    isOpen ?
+      this.playAnimation(slideAnimation, animationOptions) :
+      this.playAnimation(slideAnimation, {...animationOptions, direction: 'reverse'});
+  }
+  playAnimation(animation, options): void {
+    const list = this.host.shadowRoot.querySelector('div.dropdown-list');
+    const listAnimation = (options: {}) => list.animate(animation, options);
+    listAnimation(options).play();
+    listAnimation(options).onfinish = () => { this.isAnimating = false; };
+  }
+  getIconClasses(type: 'caret' | 'angle'): { [key: string]: boolean } {
     return {
       [this.getIconType(type, this.isOpen)]: true
     }
@@ -58,25 +65,23 @@ export class Dropdown {
   getIconType(type: 'caret' | 'angle', state: boolean): string {
     return `icon-${type}-${state ? 'up' : 'down'}`;
   }
-  getListClasses() {
-    return {
-      'dropdown-list': true,
-      'open': this.isOpen,
-      'transitioning': this.transitioning
-    }
-  }
   hostData() {
     return {
       class: {
-        'light': this.theme === 'light',
-        'dark': this.theme === 'dark'
-      }
+        'open': this.isOpen,
+        'animating': this.isAnimating
+      },
+      'aria-expanded': this.isOpen,
+      tabindex: -1,
     }
   }
   render() {
     return [
-      <div class="dropdown-header" onClick={() => this.toggleDropdown()}>{this.label}&nbsp;<i class={this.getIconClasses(this.icon)}></i></div>,
-      <div class={this.getListClasses()}>
+      <div class="dropdown-header" onClick={() => this.toggleDropdown()}>
+        <span>{this.label}</span>
+        <i class={this.getIconClasses(this.icon)}></i>
+      </div>,
+      <div class="dropdown-list">
         <slot />
       </div>
     ]

@@ -6,19 +6,29 @@
   <title>Stencil Component Starter</title>
   <script src="/build/stencil-components.js"></script>
   <link href="/assets/icon-font/stencil-demo-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
   <style>
     body {
       padding: 40px;
+      font-family: 'Open Sans', sans-serif;
+    }
+    ui-dropdown {
+      display: block;
+      width: 12.25rem;
+    }
+    ul {
+      margin: 0;
+      list-style: none;
+      padding: 1rem;
     }
   </style>
 </head>
 <body>
-  <ui-dropdown label="My Dropdown" theme="dark">
-    <ul>
+  <ui-dropdown label="My Dropdown" icon="caret">
+    <ul id="list">
       <li>Item 1</li>
       <li>Item 2</li>
     </ul>
   </ui-dropdown>
-
 </body>
 </html>

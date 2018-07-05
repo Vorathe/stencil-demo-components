@@ -1,0 +1,16 @@
+:root {
+  --ui-dropdown-border-radius: .188rem;
+  --ui-dropdown-box-shadow: 0 .063rem .188rem rgba(.32, .32, .32, .16);
+  --ui-dropdown-header-font-weight: 400;
+  --ui-dropdown-header-color: #4a4a4a;
+  --ui-dropdown-header-active-color: #005cd2;
+  --ui-dropdown-header-background-color: #fafafa;
+  --ui-dropdown-header-padding: .750rem 1.125rem;
+  --ui-dropdown-header-font-size: 1rem;
+  --ui-dropdown-border: .063rem solid #ccc;
+  --ui-dropdown-list-border: var(--ui-dropdown-border);
+  --ui-dropdown-list-padding: 0;
+  --ui-dropdown-list-margin: -2px 0 0 0;
+  --ui-dropdown-list-background-color: #ffffff;
+  --ui-dropdown-focus-shadow: 0 0 .188rem rgba(0, 98, 255, .75);
+}
